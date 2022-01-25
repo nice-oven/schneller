@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/data_entry_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleMargin="0px"
+        >
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="false"
+        app:layout_constraintTop_toBottomOf="@id/data_entry_toolbar">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/da_layout2">
+            <ImageView
+                android:id="@+id/entry_test_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_add_photo"
+                app:layout_constraintTop_toTopOf="@id/da_layout2"
+                android:contentDescription="@string/test_image_description"
+                />
+
+            <EditText
+                android:id="@+id/edit_ean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="numberDecimal"
+                android:hint="@string/ean_placeholder"
+                app:layout_constraintTop_toBottomOf="@id/entry_test_image"
+                tools:layout_editor_absoluteX="5dp"
+                android:nextFocusDown="@id/edit_name"
+                />
+
+            <EditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="text"
+                android:hint="@string/test_name_hint"
+                app:layout_constraintTop_toBottomOf="@id/edit_ean"
+                tools:layout_editor_absoluteX="5dp"
+                android:nextFocusDown="@id/edit_manufacturer"
+                />
+
+            <EditText
+                android:id="@+id/edit_manufacturer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="text"
+                android:hint="@string/test_manufacturer_hint"
+                app:layout_constraintTop_toBottomOf="@id/edit_name"
+                tools:layout_editor_absoluteX="5dp"
+                android:nextFocusDown="@id/edit_test_id"
+                />
+
+            <EditText
+                android:id="@+id/edit_test_id"
+                android:hint="@string/test_id_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/edit_manufacturer"
+                android:layout_marginTop="5dp"
+                android:inputType="text"
+                tools:layout_editor_absoluteX="5dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                app:layout_constraintTop_toBottomOf="@id/edit_test_id"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

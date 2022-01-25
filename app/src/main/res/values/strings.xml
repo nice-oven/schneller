@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">schneller</string>
+    <string name="search_title">nixda</string>
+    <string name="test">Test</string>
+    <string name="test_image_description">(dummy) image of a testkit</string>
+    <string name="ean_not_found">EAN unbekannt</string>
+    <string name="ok">ok</string>
+    <string name="no_data">Keine Daten auffindbar</string>
+    <string name="prompt_enter_data">Tippe hier zum Einfügen</string>
+    <string name="not_tested">Zuverlässigkeit nicht durch Paul-Ehrlich-Institut geprüft</string>
+    <string name="tested">Zuverlässigkeit durch Paul-Ehrlich-Institut geprüft</string>
+    <string name="sensitivity">Sensitivität: %1$.2f</string>
+    <string name="specificity">Spezifizität: %1$.2f</string>
+    <string name="submit_data">senden</string>
+    <string name="ean_placeholder">13-stelliger Barcode / EAN</string>
+    <string name="test_name_hint">Name</string>
+    <string name="test_manufacturer_hint">Hersteller</string>
+    <string name="test_id_hint">Test ID (z.B. AT1236/21)</string>
+    <string name="send_title">Senden</string>
+    <string name="ean_length_error">Muss genau 13 Ziffern haben</string>
+    <string name="test_id_error">Muss dem Muster AT1234/12 oder AT123/12 ähneln</string>
+    <string name="test_id_regex">AT\\d{3,4}/\\d{2}</string>
+    <string name="server_url">http://10.0.2.2:5000/</string>
+</resources>
