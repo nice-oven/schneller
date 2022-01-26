@@ -21,4 +21,9 @@
     <string name="test_id_error">Muss dem Muster AT1234/12 oder AT123/12 ähneln</string>
     <string name="test_id_regex">AT\\d{3,4}/\\d{2}</string>
     <string name="server_url">http://10.0.2.2:5000/</string>
+    <string name="manufacturer_information">Herstellerangaben:</string>
+    <string name="cq_25">hoher Viruslast:</string>
+    <string name="cq_25_30">mittlerer Viruslast:</string>
+    <string name="cq_30">geringer Viruslast:</string>
+    <string name="with_specificity">Sensitivität bei...</string>
 </resources>

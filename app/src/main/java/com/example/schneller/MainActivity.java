@@ -2,8 +2,6 @@ package com.example.schneller;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
-import static java.lang.Thread.sleep;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -18,7 +16,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
 
 import android.Manifest;
 import android.app.Activity;
@@ -33,11 +30,9 @@ import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
@@ -49,19 +44,14 @@ import com.google.mlkit.vision.common.InputImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class MainActivity extends AppCompatActivity  implements ImageAnalysis.Analyzer, LifecycleObserver {
     ListView listview;
-    ArrayList<String> list;
-    ArrayAdapter<String> adapter;
     BfarmDbHelper dbh;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private PreviewView previewView;
     private BarcodeScanner scanner;
     private ImageAnalysis imageAnalysis;
-    private final Lock eanLock = new ReentrantLock();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -70,7 +60,7 @@ public class MainActivity extends AppCompatActivity  implements ImageAnalysis.An
         setContentView(R.layout.second_layout);
 
         // listview
-        listview = (ListView) findViewById(R.id.listView);
+        listview = findViewById(R.id.listView);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,7 +79,7 @@ public class MainActivity extends AppCompatActivity  implements ImageAnalysis.An
         listview.setVisibility(View.GONE);
 
         // toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -135,7 +125,7 @@ public class MainActivity extends AppCompatActivity  implements ImageAnalysis.An
         // eanLock = new ReentrantLock();
 
         // barcode scanner
-        previewView = (PreviewView) findViewById(R.id.previewView);
+        previewView = findViewById(R.id.previewView);
         previewView.setMinimumHeight(freeHeight);
         previewView.setMinimumWidth(freeWidth);
         BarcodeScannerOptions barcodeOptions = new BarcodeScannerOptions.Builder()
@@ -193,9 +183,6 @@ public class MainActivity extends AppCompatActivity  implements ImageAnalysis.An
 
     @Override
     public void analyze(ImageProxy imageProxy) {
-
-        int h = imageProxy.getHeight();
-        int w = imageProxy.getWidth();
         Image mediaImage = imageProxy.getImage();
         if(mediaImage != null) {
             InputImage image = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
@@ -217,21 +204,18 @@ public class MainActivity extends AppCompatActivity  implements ImageAnalysis.An
 
     private void scanBarcode(InputImage image, ImageProxy imageProxy) {
         Task<List<Barcode>> result = scanner.process(image)
-                .addOnCompleteListener(new OnCompleteListener<List<Barcode>>() {
-                    @Override
-                    public void onComplete(@NonNull Task<List<Barcode>> task) {
-                        if (task.isSuccessful()) {
-                            List<Barcode> barcodes = task.getResult();
-                            if (barcodes.size() > 0) {
-                                Barcode barcode = barcodes.get(0);
-                                String ean = barcode.getRawValue();
-                                eanDetected(ean);
-                            }
-                        } else {
-                            System.out.println("fail");
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Barcode> barcodes = task.getResult();
+                        if (barcodes.size() > 0) {
+                            Barcode barcode = barcodes.get(0);
+                            String ean = barcode.getRawValue();
+                            eanDetected(ean);
                         }
-                        imageProxy.close();
+                    } else {
+                        System.out.println("fail");
                     }
+                    imageProxy.close();
                 });
     }
 
@@ -264,9 +248,9 @@ public class MainActivity extends AppCompatActivity  implements ImageAnalysis.An
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
 
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector,
+        Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector,
                 preview);
-        camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector,
+        camera = cameraProvider.bindToLifecycle(this, cameraSelector,
                 imageAnalysis, preview);
     }
 
@@ -274,7 +258,7 @@ public class MainActivity extends AppCompatActivity  implements ImageAnalysis.An
         ArrayList<Testcheck> tcs = dbh.search(keyword);
 
         if (tcs == null) {
-            tcs = new ArrayList<Testcheck>();
+            tcs = new ArrayList<>();
             Testcheck enterData = new Testcheck();
             enterData.setName(getResources().getString(R.string.no_data));
             enterData.setManufacturer(getResources().getString(R.string.prompt_enter_data));
