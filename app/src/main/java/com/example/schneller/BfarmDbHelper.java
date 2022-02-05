@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class BfarmDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 6 ;
@@ -147,15 +148,14 @@ public class BfarmDbHelper extends SQLiteOpenHelper {
                     tc.setName(candidate_cursor.getString(1));
                     tc.setManufacturer(candidate_cursor.getString(3));
                     tc.setPeiTested(candidate_cursor.getString(2).equals("Ja"));
-                    tc.setSensitivity(candidate_cursor.getDouble(8));
-                    tc.setSpecificity(candidate_cursor.getDouble(10));
+                    tc.setSensitivity(asDouble(candidate_cursor.getString(8)));
+                    tc.setSpecificity(asDouble(candidate_cursor.getString(10)));
                     tc.setLink(candidate_cursor.getString(12));
                     tc.setTest_id_pei(candidate_cursor.getString(14));
-                    tc.setCq_25_30(candidate_cursor.getDouble(15));
-                    tc.setCq_lt_25(candidate_cursor.getDouble(16));
-                    tc.setCq_gt_30(candidate_cursor.getDouble(17));
-                    tc.setTotal_sensitivity(candidate_cursor.getDouble(18));
-                    double val = candidate_cursor.getDouble(18);
+                    tc.setCq_25_30(asDouble(candidate_cursor.getString(15)));
+                    tc.setCq_lt_25(asDouble(candidate_cursor.getString(16)));
+                    tc.setCq_gt_30(asDouble(candidate_cursor.getString(17)));
+                    tc.setTotal_sensitivity(asDouble(candidate_cursor.getString(18)));
                     results.add(tc);
                 } else {
                     // db error
@@ -163,6 +163,13 @@ public class BfarmDbHelper extends SQLiteOpenHelper {
             }
         }
         return results;
+    }
+
+    private double asDouble(String val) {
+        if (val != null) {
+            return Double.parseDouble(val.replace(",", "."));
+        }
+        return 0.0;
     }
 
     public Testcheck searchByEAN(String ean) {
