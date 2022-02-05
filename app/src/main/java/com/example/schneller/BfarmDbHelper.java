@@ -8,6 +8,7 @@ import static com.example.schneller.DatabaseContract.BfarmData.SQL_SEARCH_BY_TES
 import static com.example.schneller.DatabaseContract.BfarmData.SQL_SEARCH_QUERY;
 import static com.example.schneller.DatabaseContract.EanData.SQL_SEARCH_EAN;
 import static com.example.schneller.DatabaseContract.EanData.SQL_SINGLE_SEARCH_EAN;
+import static com.example.schneller.DatabaseContract.SQL_LOAD_BY_TEST_ID;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -27,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BfarmDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 4 ;
+    public static final int DATABASE_VERSION = 6 ;
     public static final String DATABASE_NAME = "bfarm.db";
     private Context context;
     private String DB_PATH;
@@ -139,7 +140,7 @@ public class BfarmDbHelper extends SQLiteOpenHelper {
             results = new ArrayList<Testcheck>();
             for (String candidate:
                  candidates) {
-                Cursor candidate_cursor = db.rawQuery(SQL_SEARCH_BY_TEST_ID, new String[]{candidate});
+                Cursor candidate_cursor = db.rawQuery(SQL_LOAD_BY_TEST_ID, new String[]{candidate});
                 if (candidate_cursor.moveToFirst()) {
                     Testcheck tc = new Testcheck();
                     tc.setTest_id(candidate_cursor.getString(0));
@@ -149,7 +150,12 @@ public class BfarmDbHelper extends SQLiteOpenHelper {
                     tc.setSensitivity(candidate_cursor.getDouble(8));
                     tc.setSpecificity(candidate_cursor.getDouble(10));
                     tc.setLink(candidate_cursor.getString(12));
-
+                    tc.setTest_id_pei(candidate_cursor.getString(14));
+                    tc.setCq_25_30(candidate_cursor.getDouble(15));
+                    tc.setCq_lt_25(candidate_cursor.getDouble(16));
+                    tc.setCq_gt_30(candidate_cursor.getDouble(17));
+                    tc.setTotal_sensitivity(candidate_cursor.getDouble(18));
+                    double val = candidate_cursor.getDouble(18);
                     results.add(tc);
                 } else {
                     // db error

@@ -2,10 +2,14 @@ package com.example.schneller;
 
 import android.provider.BaseColumns;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public final class DatabaseContract {
     private DatabaseContract() {}
+    public static final String SQL_LOAD_BY_TEST_ID = "SELECT * FROM " + BfarmData.TABLE_NAME +
+            " LEFT OUTER JOIN " + PEIData.TABLE_NAME +
+            " ON " + BfarmData.TABLE_NAME + "." + BfarmData.COLUMN_NAME_TEST_ID + " = " +
+            PEIData.TABLE_NAME + "." + PEIData.COLUMN_TEST_ID +
+            " WHERE " + BfarmData.COLUMN_NAME_TEST_ID + " = ?";
 
     public static class BfarmData implements BaseColumns {
         public static final String TABLE_NAME = "bfarm_data";
@@ -63,7 +67,6 @@ public final class DatabaseContract {
         public static final String TABLE_NAME = "ean_data";
         public static final String COLUMN_NAME_TEST_ID = "test_id";
         public static final String COLUMN_NAME_EAN = "ean";
-        public static final String COLUMN_NAME_INFO = "info";
 
         // query one
         public static final String SQL_SINGLE_SEARCH_EAN =
@@ -80,4 +83,14 @@ public final class DatabaseContract {
                 EanData.COLUMN_NAME_EAN + " LIKE ?";
 
     }
+
+    public static class PEIData implements BaseColumns {
+        public static final String TABLE_NAME = "pei_data";
+        public static final String COLUMN_TEST_ID = "test_id";
+        public static final String COLUMN_CQ_25_30 = "cq_25_30";
+        public static final String COLUMN_CQ_LT_25 = "cq_lt_25";
+        public static final String COLUMN_CQ_GT_30 = "cq_gt_30";
+        public static final String COLUMN_TOTAL_SENSITIVITY = "total_sensitivity";
+    }
+
 }

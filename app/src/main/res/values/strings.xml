@@ -9,8 +9,8 @@
     <string name="prompt_enter_data">Tippe hier zum Einfügen</string>
     <string name="not_tested">Zuverlässigkeit nicht durch Paul-Ehrlich-Institut geprüft</string>
     <string name="tested">Zuverlässigkeit durch Paul-Ehrlich-Institut geprüft</string>
-    <string name="sensitivity">Sensitivität: %1$.2f</string>
-    <string name="specificity">Spezifizität: %1$.2f</string>
+    <string name="sensitivity">Sensitivität: %.1f</string>
+    <string name="specificity">Spezifizität: %.1f</string>
     <string name="submit_data">senden</string>
     <string name="ean_placeholder">13-stelliger Barcode / EAN</string>
     <string name="test_name_hint">Name</string>

@@ -31,13 +31,25 @@ public class ModalBottomSheet extends BottomSheetDialogFragment {
         if (testcheck.getPeiTested() == Boolean.TRUE) {
             peiChecked.setText(R.string.tested);
             peiChecked.setBackgroundColor(getResources().getColor(R.color.green));
-            String showSensitivity = String.format(getResources().getString(R.string.sensitivity), testcheck.getSensitivity());
-            ((TextView) v.findViewById(R.id.sensitivity)).setText(showSensitivity);
-            String showSpecificity = String.format(getResources().getString(R.string.specificity), testcheck.getSpecificity());
-            ((TextView) v.findViewById(R.id.specificity)).setText(showSpecificity);
         } else {
             peiChecked.setText(R.string.not_tested);
             peiChecked.setBackgroundColor(getResources().getColor(R.color.orange));
+        }
+        String showSensitivity = String.format(getResources().getString(R.string.sensitivity), testcheck.getSensitivity());
+        ((TextView) v.findViewById(R.id.sensitivity)).setText(showSensitivity);
+        String showSpecificity = String.format(getResources().getString(R.string.specificity), testcheck.getSpecificity());
+        ((TextView) v.findViewById(R.id.specificity)).setText(showSpecificity);
+        if (testcheck.getTest_id_pei() != null) {
+            ((TextView) v.findViewById(R.id.with_specificity)).setVisibility(View.VISIBLE);
+            String str_cq_25_30 = String.format("%.1f", testcheck.getCq_25_30());
+            ((TextView) v.findViewById(R.id.cq_25_30_label)).setVisibility(View.VISIBLE);
+            ((TextView) v.findViewById(R.id.cq_25_30_value)).setText(str_cq_25_30);
+            String str_cq_lt_25 = String.format("%.1f", testcheck.getCq_lt_25());
+            ((TextView) v.findViewById(R.id.cq_25_label)).setVisibility(View.VISIBLE);
+            ((TextView) v.findViewById(R.id.cq_25_value)).setText(str_cq_lt_25);
+            String str_cq_gt_30 = String.format("%.1f", testcheck.getCq_gt_30());
+            ((TextView) v.findViewById(R.id.cq_30_label)).setVisibility(View.VISIBLE);
+            ((TextView) v.findViewById(R.id.cq_30_value)).setText(str_cq_gt_30);
         }
         return v;
     }
